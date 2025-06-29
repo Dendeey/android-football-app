@@ -10,6 +10,17 @@ Elle permet de :
 
 ---
 
+Voici la page d’accueil :
+![Accueil](screenshots/accueil.png)
+
+Page de recherche :
+![Recherche](screenshots/recherche.png)
+
+Détail d’un joueur :
+![Profil joueur](screenshots/profil.png)
+
+---
+
 ## Fonctionnalités principales
 
 - **Page d’accueil** : présentation de l’app (en français ou anglais)
