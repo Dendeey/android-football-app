@@ -26,7 +26,6 @@ Elle permet de :
 1. **Cloner le dépôt**
     ```bash
     git clone https://github.com/Dendeey/android-football-app.git
-    cd football-app
     ```
 
 2. **Ouvrir dans Android Studio**  
