@@ -1,10 +1,12 @@
 package com.example.android_football_app.model
 
+import com.google.gson.JsonElement
+
 
 data class ApiResponse(
     val get: String?,
     val parameters: Map<String, String>?,
-    val errors: List<String>?,
+    val errors: JsonElement?,
     val results: Int?,
     val paging: Paging?,
     val response: List<ApiPlayerResponse>

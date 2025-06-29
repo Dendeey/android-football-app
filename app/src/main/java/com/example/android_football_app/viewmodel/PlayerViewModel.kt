@@ -34,4 +34,18 @@ class PlayerViewModel : ViewModel() {
             _loading.value = false
         }
     }
+
+    fun loadRandomOrFirstPlayer() {
+        // Ici tu peux appeler la recherche avec un nom courant, ou l’API sans paramètre si supporté
+        viewModelScope.launch {
+            try {
+                val result = repository.searchPlayers("a") // "a" retourne souvent plein de joueurs
+                _players.value = result
+                _error.value = null
+            } catch (e: Exception) {
+                _error.value = e.localizedMessage
+            }
+        }
+    }
+
 }

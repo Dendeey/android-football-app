@@ -21,11 +21,17 @@ fun HomeScreen(
     onPlayerClick: (Int) -> Unit,
     loading: Boolean,
     error: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    loadDefault: (() -> Unit)? = null
 
 ) {
     var searchQuery by remember { mutableStateOf("") }
-
+    var showError by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        if (players.isEmpty() && loadDefault != null) {
+            loadDefault()
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -39,11 +45,27 @@ fun HomeScreen(
             modifier = Modifier.fillMaxWidth()
         )
         Spacer(modifier = Modifier.height(8.dp))
+
         Button(
-            onClick = { onSearch(searchQuery) },
-            modifier = Modifier.align(Alignment.End)
+            onClick = {
+                if (searchQuery.trim().isNotEmpty()) {
+                    showError = false
+                    onSearch(searchQuery)
+                } else {
+                    showError = true
+                }
+            },
+            modifier = Modifier.align(Alignment.End),
         ) {
             Text(text = stringResource(id = R.string.search))
+        }
+        if (showError) {
+            Text(
+                text = "Veuillez entrer un nom de joueur avant de rechercher.",
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 4.dp)
+            )
         }
         Spacer(modifier = Modifier.height(16.dp))
 
