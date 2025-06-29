@@ -2,20 +2,34 @@ package com.example.android_football_app.repository
 
 import com.example.android_football_app.model.ApiPlayer
 import com.example.android_football_app.model.Player
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class PlayerRepository {
-    private val api: ApiFootballService
-
-    init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://v3.football.api-sports.io/")
-            .addConverterFactory(GsonConverterFactory.create())
+// Partie globale : logging et retrofit bien configurés
+val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+val okHttpClient = OkHttpClient.Builder()
+    .addInterceptor(logging)
+    .addInterceptor { chain ->
+        val request = chain.request().newBuilder()
+            .addHeader("x-apisports-key", "527514efd43ce9e12f499c05e861ee58") // Mets ta clé ici
             .build()
-
-        api = retrofit.create(ApiFootballService::class.java)
+        chain.proceed(request)
     }
+    .build()
+
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://v3.football.api-sports.io/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .client(okHttpClient)
+    .build()
+
+val api = retrofit.create(ApiFootballService::class.java)
+
+class PlayerRepository {
+    // Utilise directement l’api créée plus haut !
+    private val api: ApiFootballService = com.example.android_football_app.repository.api
 
     suspend fun searchPlayers(query: String): List<Player> {
         val result = api.searchPlayers(query)

@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.okhttp.logging.interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
